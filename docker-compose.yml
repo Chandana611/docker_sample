@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+    backend: 
+      build: .
+      container_name: beneficiary_fastapi
+      ports: 
+        - '8000:8000'
+      env_file: 
+        - .env
+      depends_on: 
+        postgres:
+          condition: service_healthy
+
+    postgres:
+      image: postgres:16
+      container_name: beneficiary_postgres
+
+      environment:
+         POSTGRES_USER: postgres
+         POSTGRES_PASSWORD: edcsdatabase
+         POSTGRES_DB: beneficiary_db
+
+      ports: 
+      - '5432:5432'
+
+      volumes:
+
+      - postgres_data:/var/lib/postgresql/data
+
+      healthcheck:
+        test:
+          [
+            "CMD-SHELL",
+            "pg_isready -U postgres -d beneficiary_db"
+          ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+volumes:
+
+  postgres_data:
