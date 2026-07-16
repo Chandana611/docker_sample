@@ -1,1 +1,42 @@
+name: Deploy Docker Application
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # Step 1: Download your GitHub repository code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+
+    # Step 2: Connect to Ubuntu server and deploy
+    - name: Deploy to Ubuntu Server
+      uses: appleboy/ssh-action@v1.0.3
+
+      with:
+
+        host: ${{ secrets.SERVER_HOST }}
+
+        username: ${{ secrets.SERVER_USER }}
+
+        key: ${{ secrets.SERVER_SSH_KEY }}
+
+        script: |
+
+          cd /home/ubuntu/sevasakhi/git_trial
+
+          git pull origin main
+
+          docker compose down
+
+          docker compose build
+
+          docker compose up -d
