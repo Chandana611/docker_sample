@@ -5,6 +5,7 @@ from typing import Optional
 from app.db import get_db_connection, create_table
 from psycopg2.extras import RealDictCursor
 
+# CI/CD deployment test - updated from local machine
 app = FastAPI()
 
 class SubmitRequest(BaseModel):
