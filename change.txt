@@ -1,0 +1,14 @@
+Next Time You Change the Code
+
+Suppose you modify
+
+main.py
+
+Run:
+
+git status
+git add .
+git commit -m "Added new API endpoint"
+git push
+
+That's it. No need to add the remote again.
